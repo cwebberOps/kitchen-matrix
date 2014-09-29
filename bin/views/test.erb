@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>Kitchen Matrix - <%= @test %></title>
+  </head>
+
+  <body>
+    <h1>Kitchen Matrix - <%= @test %></h1>
+    <table>
+      <tr>
+        <th>Suite</th>
+        <th>Started</th>
+        <th>Ended</th>
+        <th>Passed</th>
+      </tr>
+      <% @suites.keys.sort.each do |suite| %>
+        <tr>
+          <td><a href="<%= @test %>/<%= suite %>"><%= suite %></a></td>
+          <td><%= JSON.parse(@suites[suite])['start'] %></td>
+          <td><%= JSON.parse(@suites[suite])['ended'] %></td>
+          <td><%= JSON.parse(@suites[suite])['exitstatus'] %></td>
+        </tr>
+      <% end %>
+    </table>
+  </body>
+</html>

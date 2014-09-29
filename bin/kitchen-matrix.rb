@@ -8,17 +8,19 @@ test_time = Time.now
 test_name = "#{File.basename(Dir.getwd)}-#{test_time.year}-#{test_time.month}-#{test_time.day}-#{test_time.hour}-#{test_time.min}"
 list_output = `kitchen list -b`
 
-pool = Thread.pool(20)
+pool = Thread.pool(100)
 redis = Redis.new
 
 list_output.each_line do |suite_name|
+
+  suite_name.strip!
 
   pool.process do
 
     log = {start: Time.now}
     puts "[#{log[:start]}] Starting #{suite_name}"
     redis.hset(test_name, suite_name, log.to_json)
-    log[:output] = `kitchen test #{suite_name}`
+    log[:output] = `kitchen test -d always #{suite_name} 2>&1`
     log[:exitstatus] = $?.exitstatus
     log[:ended] = Time.now
     redis.hset(test_name, suite_name, log.to_json)

@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>Kitchen Matrix - <%= @test %></title>
+  </head>
+
+  <body>
+    <h1>Kitchen Matrix - <%= @test %></h1>
+    <h2><%= @suite %></h2>
+    <table>
+      <tr><th>Started</th><td><%= @details['start'] %></td></tr>
+      <tr><th>Ended</th><td><%= @details['ended'] %></td></tr>
+      <tr><th>Exit Status</th><td><%= @details['exitstatus'] %></td></tr>
+    </table>
+    <hr />
+    <pre>
+<%= Term::ANSIColor.uncolored(@details['output']) %>
+    </pre>
+  </body>
+</html>
